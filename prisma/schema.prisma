@@ -19,6 +19,7 @@ model User {
   email     String    @unique
   password  String
   courses   Course[]
+  terms     Term[]
   role      String    @default("member") //admin and member
   createdAt DateTime  @default(now())
   updatedAt DateTime? @updatedAt
@@ -32,4 +33,15 @@ model Course {
   userId     Int?
   createdAt  DateTime  @default(now())
   updatedAt  DateTime? @updatedAt
+}
+
+model Term {
+  id        Int       @id @default(autoincrement())
+  title     String
+  User      User?     @relation(fields: [userId], references: [id])
+  userId    Int?
+  startDate DateTime
+  endDate   DateTime
+  createdAt DateTime  @default(now())
+  updatedAt DateTime? @updatedAt
 }

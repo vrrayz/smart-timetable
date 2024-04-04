@@ -7,9 +7,10 @@ import { AuthModule } from './auth/auth.module';
 import { ConfigModule } from '@nestjs/config';
 import { JwtService } from '@nestjs/jwt';
 import { CourseModule } from './course/course.module';
+import { TermModule } from './term/term.module';
 
 @Module({
-  imports: [UserModule, AuthModule, ConfigModule.forRoot({ isGlobal: true }), CourseModule],
+  imports: [UserModule, AuthModule, ConfigModule.forRoot({ isGlobal: true }), CourseModule, TermModule],
   controllers: [AppController],
   providers: [AppService, PrismaService, JwtService],
 })
