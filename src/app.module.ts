@@ -8,9 +8,10 @@ import { ConfigModule } from '@nestjs/config';
 import { JwtService } from '@nestjs/jwt';
 import { CourseModule } from './course/course.module';
 import { TermModule } from './term/term.module';
+import { StudyPreferenceModule } from './study-preference/study-preference.module';
 
 @Module({
-  imports: [UserModule, AuthModule, ConfigModule.forRoot({ isGlobal: true }), CourseModule, TermModule],
+  imports: [UserModule, AuthModule, ConfigModule.forRoot({ isGlobal: true }), CourseModule, TermModule, StudyPreferenceModule],
   controllers: [AppController],
   providers: [AppService, PrismaService, JwtService],
 })
