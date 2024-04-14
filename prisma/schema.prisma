@@ -24,37 +24,55 @@ model User {
   createdAt       DateTime         @default(now())
   updatedAt       DateTime?        @updatedAt
   studyPreference StudyPreference?
+  TimeTable       TimeTable[]
 }
 
 model Course {
-  id         Int       @id @default(autoincrement())
+  id         Int         @id @default(autoincrement())
   title      String
   courseCode String?
-  User       User?     @relation(fields: [userId], references: [id])
+  User       User?       @relation(fields: [userId], references: [id])
   userId     Int?
-  createdAt  DateTime  @default(now())
-  updatedAt  DateTime? @updatedAt
+  createdAt  DateTime    @default(now())
+  updatedAt  DateTime?   @updatedAt
+  TimeTable  TimeTable[]
 }
 
 model Term {
-  id        Int       @id @default(autoincrement())
+  id        Int         @id @default(autoincrement())
   title     String
-  User      User?     @relation(fields: [userId], references: [id])
+  User      User?       @relation(fields: [userId], references: [id])
   userId    Int?
   startDate DateTime
   endDate   DateTime
-  createdAt DateTime  @default(now())
-  updatedAt DateTime? @updatedAt
+  createdAt DateTime    @default(now())
+  updatedAt DateTime?   @updatedAt
+  TimeTable TimeTable[]
 }
 
 model StudyPreference {
-  id            Int    @id @default(autoincrement())
-  User          User   @relation(fields: [userId], references: [id])
-  userId        Int    @unique
+  id            Int       @id @default(autoincrement())
+  User          User      @relation(fields: [userId], references: [id])
+  userId        Int       @unique
   startTime     Int //in milliseconds
   endTime       Int //in milliseconds
   coursesPerDay Int
   breaksPerDay  Int //in milliseconds
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime? @updatedAt
+}
+
+model TimeTable {
+  id        Int       @id @default(autoincrement())
+  User      User      @relation(fields: [userId], references: [id])
+  userId    Int
+  Term      Term      @relation(fields: [termId], references: [id])
+  termId    Int
+  Course    Course    @relation(fields: [courseId], references: [id])
+  courseId  Int
+  days      String // days would be seperated by commas eg Monday,Tuesday, Wednesday or set to Everyday
+  startTime Int
+  endTime   Int
   createdAt DateTime  @default(now())
   updatedAt DateTime? @updatedAt
 }

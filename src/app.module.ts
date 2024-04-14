@@ -9,9 +9,10 @@ import { JwtService } from '@nestjs/jwt';
 import { CourseModule } from './course/course.module';
 import { TermModule } from './term/term.module';
 import { StudyPreferenceModule } from './study-preference/study-preference.module';
+import { TimetableModule } from './timetable/timetable.module';
 
 @Module({
-  imports: [UserModule, AuthModule, ConfigModule.forRoot({ isGlobal: true }), CourseModule, TermModule, StudyPreferenceModule],
+  imports: [UserModule, AuthModule, ConfigModule.forRoot({ isGlobal: true }), CourseModule, TermModule, StudyPreferenceModule, TimetableModule],
   controllers: [AppController],
   providers: [AppService, PrismaService, JwtService],
 })
