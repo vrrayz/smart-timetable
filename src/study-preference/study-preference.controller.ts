@@ -16,27 +16,7 @@ import { StudyPreferenceService } from './study-preference.service';
 
 @Controller('study-preference')
 export class StudyPreferenceController {
-  private MILLISECONDS = 1000;
-  private AN_HOUR_IN_MILLISECONDS = 3600 * this.MILLISECONDS;
-  private A_MINUTE_IN_MILLISECONDS = 60 * this.MILLISECONDS;
   constructor(private studyPreferenceService: StudyPreferenceService) {}
-
-  clockLogic(@Body() reqBody: any) {
-    // Digital Clock conversion logic
-    const hour = Math.floor(
-      reqBody.startTime / this.AN_HOUR_IN_MILLISECONDS,
-    ).toLocaleString('en-US', {
-      minimumIntegerDigits: 2,
-    });
-    const minute = Math.floor(
-      (reqBody.startTime % this.AN_HOUR_IN_MILLISECONDS) /
-        this.A_MINUTE_IN_MILLISECONDS,
-    ).toLocaleString('en-US', {
-      minimumIntegerDigits: 2,
-    });
-    const time = `${hour}:${minute}`;
-    return { message: 'success', data: time };
-  }
 
   @UseGuards(AuthGuard('jwt'))
   @Post('create')
