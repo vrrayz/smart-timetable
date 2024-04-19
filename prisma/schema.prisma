@@ -57,7 +57,7 @@ model StudyPreference {
   startTime     Int //in milliseconds
   endTime       Int //in milliseconds
   coursesPerDay Int
-  breaksPerDay  Int //in milliseconds
+  breaksPerDay  Int //in percentage of the startTime to endTime
   createdAt     DateTime  @default(now())
   updatedAt     DateTime? @updatedAt
 }
