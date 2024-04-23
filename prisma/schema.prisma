@@ -36,6 +36,8 @@ model Course {
   createdAt  DateTime    @default(now())
   updatedAt  DateTime?   @updatedAt
   TimeTable  TimeTable[]
+  Term       Term?       @relation(fields: [termId], references: [id])
+  termId     Int?
 }
 
 model Term {
@@ -48,6 +50,7 @@ model Term {
   createdAt DateTime    @default(now())
   updatedAt DateTime?   @updatedAt
   TimeTable TimeTable[]
+  Course    Course[]
 }
 
 model StudyPreference {

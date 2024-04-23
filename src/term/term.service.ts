@@ -58,6 +58,16 @@ export class TermService {
               title: true,
               startDate: true,
               endDate: true,
+              courses: {
+                select: {
+                  id: true,
+                  title: true,
+                  courseCode: true,
+                },
+              },
+            },
+            orderBy: {
+              createdAt: 'desc',
             },
           },
         },
