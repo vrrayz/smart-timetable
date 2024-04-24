@@ -50,7 +50,7 @@ model Term {
   createdAt DateTime    @default(now())
   updatedAt DateTime?   @updatedAt
   TimeTable TimeTable[]
-  Course    Course[]
+  courses    Course[]
 }
 
 model StudyPreference {
