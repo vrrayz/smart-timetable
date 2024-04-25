@@ -29,6 +29,7 @@ model User {
   schedule        Schedule[]
   class           Class[]
   task            Task[]
+  exam            Exam[]
 }
 
 model Course {
@@ -43,6 +44,7 @@ model Course {
   Term       Term?       @relation(fields: [termId], references: [id])
   termId     Int?
   class      Class[]
+  exam       Exam[]
 }
 
 model Term {
@@ -59,6 +61,7 @@ model Term {
   currentTerm CurrentTerm?
   schedule    Schedule[]
   class       Class[]
+  exam        Exam[]
 }
 
 model CurrentTerm {
@@ -113,6 +116,20 @@ model Class {
   updatedAt DateTime?  @updatedAt
 }
 
+model Exam {
+  id        Int        @id @default(autoincrement())
+  User      User       @relation(fields: [userId], references: [id])
+  userId    Int
+  Course    Course     @relation(fields: [courseId], references: [id])
+  courseId  Int //must be required if the class option is selected
+  Term      Term       @relation(fields: [termId], references: [id])
+  termId    Int
+  room      String?
+  schedule  Schedule[]
+  createdAt DateTime   @default(now())
+  updatedAt DateTime?  @updatedAt
+}
+
 model Task {
   id        Int        @id @default(autoincrement())
   User      User       @relation(fields: [userId], references: [id])
@@ -128,7 +145,7 @@ model Schedule {
   id        Int       @id @default(autoincrement())
   User      User      @relation(fields: [userId], references: [id])
   userId    Int
-  Term      Term?      @relation(fields: [termId], references: [id])
+  Term      Term?     @relation(fields: [termId], references: [id])
   termId    Int?
   class     Class?    @relation(fields: [classId], references: [id])
   classId   Int?
@@ -139,4 +156,6 @@ model Schedule {
   updatedAt DateTime? @updatedAt
   Task      Task?     @relation(fields: [taskId], references: [id])
   taskId    Int?
+  exam      Exam?     @relation(fields: [examId], references: [id])
+  examId    Int?
 }
