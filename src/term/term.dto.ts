@@ -1,5 +1,5 @@
 import { Type } from 'class-transformer';
-import { IsDate, IsNotEmpty, IsString } from 'class-validator';
+import { IsDate, IsNotEmpty, IsNumber, IsString } from 'class-validator';
 
 export class TermDto {
   @IsString()
@@ -15,4 +15,11 @@ export class TermDto {
   @IsDate()
   @Type(() => Date)
   endDate: Date;
+}
+
+export class CurrentTermDto {
+  @IsNumber()
+  @IsNotEmpty()
+  @Type(() => Number)
+  termId: number;
 }

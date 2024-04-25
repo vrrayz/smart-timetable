@@ -14,7 +14,7 @@ import {
 import { TermService } from './term.service';
 import { AuthGuard } from '@nestjs/passport';
 import { UserRequest } from 'src/user/user.types';
-import { TermDto } from './term.dto';
+import { CurrentTermDto, TermDto } from './term.dto';
 
 @Controller('term')
 export class TermController {
@@ -35,6 +35,21 @@ export class TermController {
   @Get('userTerms')
   userTerms(@Req() req: UserRequest) {
     return this.termService.findUserTerms(req.user.email);
+  }
+
+  @UseGuards(AuthGuard('jwt'))
+  @Get('currentTerm')
+  currentTerm(@Req() req: UserRequest) {
+    return this.termService.getCurrentTerm(req.user.email);
+  }
+
+  @UseGuards(AuthGuard('jwt'))
+  @Patch('currentTerm')
+  updateCurrentTerm(
+    @Body() currentTermDto: CurrentTermDto,
+    @Req() req: UserRequest,
+  ) {
+    return this.termService.updateCurrentTerm(currentTermDto, req.user.email);
   }
 
   @UseGuards(AuthGuard('jwt'))

@@ -1,7 +1,7 @@
 import { ForbiddenException, Injectable } from '@nestjs/common';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { UserService } from 'src/user/user.service';
-import { TermDto } from './term.dto';
+import { CurrentTermDto, TermDto } from './term.dto';
 
 @Injectable()
 export class TermService {
@@ -11,12 +11,73 @@ export class TermService {
   ) {}
   async createTerm(email: string, data: TermDto) {
     const user = await this.userService.findUser(email);
+    let currentTerm = {};
     if (user.statusCode === 200) {
       try {
         const term = await this.prismaService.term.create({
           data: { ...data, userId: user.message.id },
         });
-        return { statusCode: 200, message: term };
+        if (!user.message.currentTerm) {
+          currentTerm = await this.prismaService.currentTerm.create({
+            data: {
+              userId: user.message.id,
+              termId: term.id,
+            },
+          });
+        } else {
+          currentTerm = await this.prismaService.currentTerm.update({
+            where: {
+              userId: user.message.id,
+            },
+            data: {
+              termId: term.id,
+            },
+          });
+        }
+        return { statusCode: 200, message: { ...term, currentTerm } };
+      } catch (error) {
+        throw error;
+      }
+    }
+    throw new ForbiddenException('Error fetching user data');
+  }
+  async getCurrentTerm(email: string) {
+    try {
+      const userCurrentTerm = await this.prismaService.user.findUniqueOrThrow({
+        where: { email },
+        select: {
+          currentTerm: {
+            select: { termId: true },
+          },
+        },
+      });
+
+      return { statusCode: 200, message: userCurrentTerm };
+    } catch (error) {
+      if (error.code == 'P2025') throw new ForbiddenException('User not found');
+      throw error;
+    }
+  }
+  async updateCurrentTerm(currentTermDto: CurrentTermDto, email: string) {
+    const user = await this.userService.findUser(email);
+    let currentTerm = {};
+    if (user.statusCode === 200) {
+      try {
+        if (!user.message.currentTerm) {
+          currentTerm = await this.prismaService.currentTerm.create({
+            data: { ...currentTermDto, userId: user.message.id },
+          });
+        } else {
+          currentTerm = await this.prismaService.currentTerm.update({
+            where: {
+              userId: user.message.id,
+            },
+            data: {
+              ...currentTermDto,
+            },
+          });
+        }
+        return { statusCode: 200, message: { currentTerm } };
       } catch (error) {
         throw error;
       }

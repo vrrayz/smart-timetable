@@ -21,6 +21,11 @@ export class UserService {
           updatedAt: true,
           email: true,
           role: true,
+          currentTerm: {
+            select: {
+              termId: true,
+            },
+          },
         },
       });
 
