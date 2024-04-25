@@ -7,7 +7,7 @@ import {
   IsOptional,
   //   IsString,
 } from 'class-validator';
-import { ScheduleDto } from 'src/schedule/schedule.dto';
+import { ScheduleDto, ScheduleUpdateDto } from 'src/schedule/schedule.dto';
 
 export class ClassScheduleDto {
   @IsNumber()
@@ -40,4 +40,9 @@ export class ClassScheduleDto {
   //   @IsString()
   //   @IsNotEmpty()
   //   days: string;
+}
+
+export class ClassScheduleUpdateDto extends ClassScheduleDto {
+  @IsArray()
+  schedule: ScheduleUpdateDto[];
 }

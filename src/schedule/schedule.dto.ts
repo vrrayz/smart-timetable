@@ -3,6 +3,7 @@ import {
   IsDate,
   //   IsBoolean,
   IsNotEmpty,
+  IsNumber,
   //   IsOptional,
   IsString,
 } from 'class-validator';
@@ -43,4 +44,11 @@ export class ScheduleDto {
   @IsDate()
   @Type(() => Date)
   endDate: Date;
+}
+
+export class ScheduleUpdateDto extends ScheduleDto {
+  @IsNumber()
+  @IsNotEmpty()
+  @Type(() => Number)
+  id: number;
 }
