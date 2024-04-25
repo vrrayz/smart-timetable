@@ -1,27 +1,27 @@
 import { ForbiddenException, Injectable } from '@nestjs/common';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { UserService } from 'src/user/user.service';
-import { ClassScheduleDto, ClassScheduleUpdateDto } from './classes.dto';
+import { TaskScheduleDto, TaskScheduleUpdateDto } from './task.dto';
 import { ScheduleDto, ScheduleUpdateDto } from 'src/schedule/schedule.dto';
 
 @Injectable()
-export class ClassesService {
+export class TaskService {
   constructor(
     private prismaService: PrismaService,
     private userService: UserService,
   ) {}
 
-  async createClassSchedule(
+  async createTaskSchedule(
     email: string,
-    classData: ClassScheduleDto,
+    taskSchedule: TaskScheduleDto,
     scheduleData: ScheduleDto[],
   ) {
     const user = await this.userService.findUser(email);
     if (user.statusCode === 200) {
       try {
-        const classSchedule = await this.prismaService.class.create({
+        const classSchedule = await this.prismaService.task.create({
           data: {
-            ...classData,
+            ...taskSchedule,
             userId: user.message.id,
             schedule: {
               create: scheduleData.map((dto) => {
@@ -30,13 +30,11 @@ export class ClassesService {
                   startDate: new Date(dto.startDate),
                   endDate: new Date(dto.endDate),
                   userId: user.message.id,
-                  termId: classData.termId,
                 };
               }),
             },
           },
           include: {
-            Course: true,
             schedule: true,
           },
         });
@@ -45,34 +43,33 @@ export class ClassesService {
         throw error;
       }
     }
-    throw new ForbiddenException('Error creating schedule');
+    throw new ForbiddenException('Error creating study preference');
   }
-  async findUserClasses(email: string) {
+  async findUserTasks(email: string) {
     try {
-      const userClasses = await this.prismaService.user.findUniqueOrThrow({
+      const userTasks = await this.prismaService.user.findUniqueOrThrow({
         where: { email },
         select: {
-          class: {
+          task: {
             include: {
-              Course: true,
               schedule: true,
             },
           },
         },
       });
 
-      return { statusCode: 200, message: userClasses };
+      return { statusCode: 200, message: userTasks };
     } catch (error) {
       if (error.code == 'P2025') throw new ForbiddenException('User not found');
       throw error;
     }
   }
-  async updateClassesSchedule(
-    classData: ClassScheduleUpdateDto,
+  async updateTaskSchedule(
+    classData: TaskScheduleUpdateDto,
     scheduleData: ScheduleUpdateDto[],
     id: number,
   ) {
-    const { courseId, room, building, lecturer, repeat } = classData;
+    const { title, detail } = classData;
     // delete classData.termId;
     try {
       await scheduleData.forEach(async (scheduleDto) => {
@@ -88,32 +85,26 @@ export class ClassesService {
         });
         return newSchedule;
       });
-      const classesSchedule = await this.prismaService.class.update({
+      const taskSchedule = await this.prismaService.task.update({
         where: {
           id,
         },
         data: {
-          courseId,
-          room,
-          building,
-          lecturer,
-          repeat,
-        },
-        include: {
-          Course: true,
+          title,
+          detail,
         },
       });
-      return { statusCode: 200, message: classesSchedule };
+      return { statusCode: 200, message: taskSchedule };
     } catch (error) {
       throw error;
     }
   }
-  async deleteClassesSchedule(id: number) {
-    await this.prismaService.class.delete({
+  async deleteTaskSchedule(id: number) {
+    await this.prismaService.task.delete({
       where: {
         id,
       },
     });
-    return { statusCode: 200, message: 'Class Deleted' };
+    return { statusCode: 200, message: 'Task Deleted' };
   }
 }

@@ -12,9 +12,10 @@ import { StudyPreferenceModule } from './study-preference/study-preference.modul
 import { TimetableModule } from './timetable/timetable.module';
 import { ClassesModule } from './classes/classes.module';
 import { ScheduleModule } from './schedule/schedule.module';
+import { TaskModule } from './task/task.module';
 
 @Module({
-  imports: [UserModule, AuthModule, ConfigModule.forRoot({ isGlobal: true }), CourseModule, TermModule, StudyPreferenceModule, TimetableModule, ClassesModule, ScheduleModule],
+  imports: [UserModule, AuthModule, ConfigModule.forRoot({ isGlobal: true }), CourseModule, TermModule, StudyPreferenceModule, TimetableModule, ClassesModule, ScheduleModule, TaskModule],
   controllers: [AppController],
   providers: [AppService, PrismaService, JwtService],
 })

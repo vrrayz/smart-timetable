@@ -28,6 +28,7 @@ model User {
   currentTerm     CurrentTerm?
   schedule        Schedule[]
   class           Class[]
+  task            Task[]
 }
 
 model Course {
@@ -96,33 +97,46 @@ model TimeTable {
 }
 
 model Class {
-  id       Int        @id @default(autoincrement())
-  User     User       @relation(fields: [userId], references: [id])
-  userId   Int
-  Course   Course     @relation(fields: [courseId], references: [id])
-  courseId Int //must be required if the class option is selected
-  Term     Term       @relation(fields: [termId], references: [id])
-  termId   Int
-  room     String?
-  building String?
-  lecturer String?
-  schedule Schedule[]
-  repeat   Boolean    @default(false)
-  createdAt DateTime  @default(now())
-  updatedAt DateTime? @updatedAt
+  id        Int        @id @default(autoincrement())
+  User      User       @relation(fields: [userId], references: [id])
+  userId    Int
+  Course    Course     @relation(fields: [courseId], references: [id])
+  courseId  Int //must be required if the class option is selected
+  Term      Term       @relation(fields: [termId], references: [id])
+  termId    Int
+  room      String?
+  building  String?
+  lecturer  String?
+  schedule  Schedule[]
+  repeat    Boolean    @default(false)
+  createdAt DateTime   @default(now())
+  updatedAt DateTime?  @updatedAt
+}
+
+model Task {
+  id        Int        @id @default(autoincrement())
+  User      User       @relation(fields: [userId], references: [id])
+  userId    Int
+  title     String
+  detail    String?
+  schedule  Schedule[]
+  createdAt DateTime   @default(now())
+  updatedAt DateTime?  @updatedAt
 }
 
 model Schedule {
-  id        Int      @id @default(autoincrement())
-  User      User     @relation(fields: [userId], references: [id])
+  id        Int       @id @default(autoincrement())
+  User      User      @relation(fields: [userId], references: [id])
   userId    Int
-  Term      Term     @relation(fields: [termId], references: [id])
-  termId    Int
-  class     Class?   @relation(fields: [classId], references: [id])
+  Term      Term?      @relation(fields: [termId], references: [id])
+  termId    Int?
+  class     Class?    @relation(fields: [classId], references: [id])
   classId   Int?
   days      String?
   startDate DateTime
   endDate   DateTime
   createdAt DateTime  @default(now())
   updatedAt DateTime? @updatedAt
+  Task      Task?     @relation(fields: [taskId], references: [id])
+  taskId    Int?
 }
