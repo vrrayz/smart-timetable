@@ -34,13 +34,13 @@ export class ClassesController {
         scheduleKeys.indexOf('startDate') === -1 ||
         scheduleKeys.indexOf('days') === -1 ||
         scheduleKeys.indexOf('endTime') === -1 ||
-        scheduleKeys.indexOf('startTime')
+        scheduleKeys.indexOf('startTime') === -1
       )
         throw new HttpException('Invalid schedule parameters', 400);
 
       const startDate = new Date(schedule.startDate).getTime();
       const endDate = new Date(schedule.endDate).getTime();
-      if (startDate >= endDate || schedule.startTime >= schedule.endTime)
+      if (startDate > endDate || schedule.startTime >= schedule.endTime)
         throw new HttpException('Invalid Date / Time Parameters', 400);
     });
     return this.classesService.createClassSchedule(
@@ -73,13 +73,13 @@ export class ClassesController {
         scheduleKeys.indexOf('startDate') === -1 ||
         scheduleKeys.indexOf('days') === -1 ||
         scheduleKeys.indexOf('endTime') === -1 ||
-        scheduleKeys.indexOf('startTime')
+        scheduleKeys.indexOf('startTime') === -1
       )
         throw new HttpException('Invalid schedule parameters', 400);
 
       const startDate = new Date(schedule.startDate).getTime();
       const endDate = new Date(schedule.endDate).getTime();
-      if (startDate >= endDate || schedule.startTime >= schedule.endTime)
+      if (startDate > endDate || schedule.startTime >= schedule.endTime)
         throw new HttpException('Invalid Date / Time Parameters', 400);
     });
     return this.classesService.updateClassesSchedule(
