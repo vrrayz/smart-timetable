@@ -44,6 +44,16 @@ export class ScheduleDto {
   @IsDate()
   @Type(() => Date)
   endDate: Date;
+
+  @IsNumber()
+  @IsNotEmpty()
+  @Type(() => Number)
+  startTime: number;
+
+  @IsNumber()
+  @IsNotEmpty()
+  @Type(() => Number)
+  endTime: number;
 }
 
 export class ScheduleUpdateDto extends ScheduleDto {

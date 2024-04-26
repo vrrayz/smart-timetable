@@ -50,14 +50,13 @@ export class CourseService {
       const userCourses = await this.prismaService.user.findUniqueOrThrow({
         where: { email },
         select: {
-          id: true,
-          name: true,
-          email: true,
           courses: {
             select: {
               id: true,
               title: true,
               courseCode: true,
+              termId: true,
+              userId: true,
             },
           },
         },

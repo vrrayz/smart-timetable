@@ -30,6 +30,8 @@ export class TaskService {
                   startDate: new Date(dto.startDate),
                   endDate: new Date(dto.endDate),
                   userId: user.message.id,
+                  startTime: dto.startTime,
+                  endTime: dto.endTime,
                 };
               }),
             },
@@ -81,6 +83,8 @@ export class TaskService {
             days: scheduleDto.days,
             startDate: new Date(scheduleDto.startDate),
             endDate: new Date(scheduleDto.endDate),
+            startTime: scheduleDto.startTime,
+            endTime: scheduleDto.endTime,
           },
         });
         return newSchedule;

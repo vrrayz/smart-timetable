@@ -31,6 +31,8 @@ export class ExamService {
                   endDate: new Date(dto.endDate),
                   userId: user.message.id,
                   termId: examData.termId,
+                  startTime: dto.startTime,
+                  endTime: dto.endTime,
                 };
               }),
             },
@@ -86,6 +88,8 @@ export class ExamService {
             days: scheduleDto.days,
             startDate: new Date(scheduleDto.startDate),
             endDate: new Date(scheduleDto.endDate),
+            startTime: scheduleDto.startTime,
+            endTime: scheduleDto.endTime,
           },
         });
         return newSchedule;

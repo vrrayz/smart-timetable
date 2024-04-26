@@ -31,14 +31,16 @@ export class ExamController {
       if (
         scheduleKeys.indexOf('endDate') === -1 ||
         scheduleKeys.indexOf('startDate') === -1 ||
-        scheduleKeys.indexOf('days') === -1
+        scheduleKeys.indexOf('days') === -1 ||
+        scheduleKeys.indexOf('endTime') === -1 ||
+        scheduleKeys.indexOf('startTime')
       )
         throw new HttpException('Invalid schedule parameters', 400);
 
       const startDate = new Date(schedule.startDate).getTime();
       const endDate = new Date(schedule.endDate).getTime();
-      if (startDate >= endDate)
-        throw new HttpException('Invalid Date Parameters', 400);
+      if (startDate >= endDate || schedule.startTime >= schedule.endTime)
+        throw new HttpException('Invalid Date / Time Parameters', 400);
     });
     return this.examService.createExamSchedule(
       req.user.email,
@@ -68,14 +70,16 @@ export class ExamController {
       if (
         scheduleKeys.indexOf('endDate') === -1 ||
         scheduleKeys.indexOf('startDate') === -1 ||
-        scheduleKeys.indexOf('days') === -1
+        scheduleKeys.indexOf('days') === -1 ||
+        scheduleKeys.indexOf('endTime') === -1 ||
+        scheduleKeys.indexOf('startTime')
       )
         throw new HttpException('Invalid schedule parameters', 400);
 
       const startDate = new Date(schedule.startDate).getTime();
       const endDate = new Date(schedule.endDate).getTime();
-      if (startDate >= endDate)
-        throw new HttpException('Invalid Date Parameters', 400);
+      if (startDate >= endDate || schedule.startTime >= schedule.endTime)
+        throw new HttpException('Invalid Date / Time Parameters', 400);
     });
     return this.examService.updateExamSchedule(examDto, examDto.schedule, id);
   }
