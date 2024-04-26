@@ -26,8 +26,8 @@ export class ExamController {
     // if(termDto.)
     examDto.schedule.map((schedule) => {
       const scheduleKeys = Object.keys(schedule);
-      console.log(scheduleKeys);
-      console.log(examDto.schedule);
+      //console.log(scheduleKeys);
+      //console.log(examDto.schedule);
       if (
         scheduleKeys.indexOf('endDate') === -1 ||
         scheduleKeys.indexOf('startDate') === -1 ||
@@ -63,8 +63,8 @@ export class ExamController {
     // if(termDto.)
     examDto.schedule.map((schedule) => {
       const scheduleKeys = Object.keys(schedule);
-      console.log(scheduleKeys);
-      console.log(examDto.schedule);
+      //console.log(scheduleKeys);
+      //console.log(examDto.schedule);
       if (
         scheduleKeys.indexOf('endDate') === -1 ||
         scheduleKeys.indexOf('startDate') === -1 ||
