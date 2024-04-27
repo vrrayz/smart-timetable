@@ -76,7 +76,7 @@ export class ExamService {
     scheduleData: ScheduleUpdateDto[],
     id: number,
   ) {
-    const { courseId, room } = classData;
+    const { courseId, room, building } = classData;
     // delete classData.termId;
     try {
       await scheduleData.forEach(async (scheduleDto) => {
@@ -101,6 +101,7 @@ export class ExamService {
         data: {
           courseId,
           room,
+          building,
         },
         include: {
           Course: true,

@@ -125,6 +125,7 @@ model Exam {
   Term      Term       @relation(fields: [termId], references: [id])
   termId    Int
   room      String?
+  building  String?
   schedule  Schedule[]
   createdAt DateTime   @default(now())
   updatedAt DateTime?  @updatedAt

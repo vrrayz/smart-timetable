@@ -22,6 +22,9 @@ export class ExamScheduleDto {
   @IsOptional()
   room: string;
 
+  @IsOptional()
+  building: string;
+
   @IsArray()
   schedule: ScheduleDto[];
 }
