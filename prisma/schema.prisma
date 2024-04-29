@@ -24,7 +24,7 @@ model User {
   createdAt       DateTime         @default(now())
   updatedAt       DateTime?        @updatedAt
   studyPreference StudyPreference?
-  TimeTable       TimeTable[]
+  timetable       TimeTable[]
   currentTerm     CurrentTerm?
   schedule        Schedule[]
   class           Class[]
@@ -40,7 +40,7 @@ model Course {
   userId     Int?
   createdAt  DateTime    @default(now())
   updatedAt  DateTime?   @updatedAt
-  TimeTable  TimeTable[]
+  timetable  TimeTable[]
   Term       Term?       @relation(fields: [termId], references: [id])
   termId     Int?
   class      Class[]
@@ -56,7 +56,7 @@ model Term {
   endDate     DateTime
   createdAt   DateTime     @default(now())
   updatedAt   DateTime?    @updatedAt
-  TimeTable   TimeTable[]
+  timeTable   TimeTable[]
   courses     Course[]
   currentTerm CurrentTerm?
   schedule    Schedule[]
@@ -85,18 +85,19 @@ model StudyPreference {
 }
 
 model TimeTable {
-  id        Int       @id @default(autoincrement())
-  User      User      @relation(fields: [userId], references: [id])
+  id        Int        @id @default(autoincrement())
+  User      User       @relation(fields: [userId], references: [id])
   userId    Int
-  Term      Term      @relation(fields: [termId], references: [id])
+  Term      Term       @relation(fields: [termId], references: [id])
   termId    Int
-  Course    Course    @relation(fields: [courseId], references: [id])
+  Course    Course     @relation(fields: [courseId], references: [id])
   courseId  Int
-  days      String // days would be seperated by commas eg Monday,Tuesday, Wednesday or set to Everyday
-  startTime Int
-  endTime   Int
-  createdAt DateTime  @default(now())
-  updatedAt DateTime? @updatedAt
+  schedule  Schedule[]
+  repeat    Boolean    @default(false)
+  createdAt DateTime   @default(now())
+  updatedAt DateTime?  @updatedAt
+  // Course    Course?    @relation(fields: [courseId], references: [id])
+  // courseId  Int?
 }
 
 model Class {
@@ -143,22 +144,24 @@ model Task {
 }
 
 model Schedule {
-  id        Int       @id @default(autoincrement())
-  User      User      @relation(fields: [userId], references: [id])
-  userId    Int
-  Term      Term?     @relation(fields: [termId], references: [id])
-  termId    Int?
-  class     Class?    @relation(fields: [classId], references: [id])
-  classId   Int?
-  days      String?
-  startDate DateTime
-  endDate   DateTime
-  startTime Int?      @default(0)
-  endTime   Int?      @default(0)
-  createdAt DateTime  @default(now())
-  updatedAt DateTime? @updatedAt
-  Task      Task?     @relation(fields: [taskId], references: [id])
-  taskId    Int?
-  exam      Exam?     @relation(fields: [examId], references: [id])
-  examId    Int?
+  id          Int        @id @default(autoincrement())
+  User        User       @relation(fields: [userId], references: [id])
+  userId      Int
+  Term        Term?      @relation(fields: [termId], references: [id])
+  termId      Int?
+  class       Class?     @relation(fields: [classId], references: [id])
+  classId     Int?
+  days        String?
+  startDate   DateTime
+  endDate     DateTime
+  startTime   Int?       @default(0)
+  endTime     Int?       @default(0)
+  createdAt   DateTime   @default(now())
+  updatedAt   DateTime?  @updatedAt
+  Task        Task?      @relation(fields: [taskId], references: [id])
+  taskId      Int?
+  exam        Exam?      @relation(fields: [examId], references: [id])
+  examId      Int?
+  TimeTable   TimeTable? @relation(fields: [timeTableId], references: [id])
+  timeTableId Int?
 }

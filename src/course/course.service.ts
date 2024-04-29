@@ -68,6 +68,32 @@ export class CourseService {
       throw error;
     }
   }
+  async findUserCoursesByTerm(email: string, termId: number) {
+    try {
+      const userCourses = await this.prismaService.user.findUniqueOrThrow({
+        where: { email },
+        select: {
+          courses: {
+            where: {
+              termId,
+            },
+            select: {
+              id: true,
+              title: true,
+              courseCode: true,
+              termId: true,
+              userId: true,
+            },
+          },
+        },
+      });
+
+      return { statusCode: 200, message: userCourses };
+    } catch (error) {
+      if (error.code == 'P2025') throw new ForbiddenException('User not found');
+      throw error;
+    }
+  }
   async updateCourse(data: CourseDto, id: number) {
     const course = await this.prismaService.course.update({
       where: {
