@@ -163,16 +163,16 @@ export class TimetableController {
             endTime: currentCourseEndTime,
           };
           timetable[daysOfTheWeek[index]].push(element);
-          if (subIndex !== daysOfTheWeek.length - 1) {
-            const breakTimeElement = {
-              break: breakTimePerCourse,
-            };
-            timetable[daysOfTheWeek[index]].push(breakTimeElement);
-          }
+          // if (subIndex !== daysOfTheWeek.length - 1) {
+          //   const breakTimeElement = {
+          //     break: breakTimePerCourse,
+          //   };
+          //   timetable[daysOfTheWeek[index]].push(breakTimeElement);
+          // }
           currentCourseStartTime = currentCourseEndTime + breakTimePerCourse;
         }
       }
-      return { data: timetable };
+      return { statusCode: 200, data: timetable };
     }
   }
 
